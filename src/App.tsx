@@ -8,8 +8,10 @@ import {
   DifficultySetting,
   Question
 } from "./constants";
-import { questions } from "./data/questions";
+import { questionSets } from "./data/questions";
 import { DifficultySelection } from "./components/DifficultySelection";
+
+const CURRENT_THEME = "australia";
 import { QuestionCard } from "./components/QuestionCard";
 import { AnswerButton } from "./components/AnswerButton";
 import { Timer } from "./components/Timer";
@@ -93,8 +95,9 @@ export default function App() {
   const startGame = (selectedDiff: DifficultySetting) => {
     playSound('click');
     
-    // Load and shuffle questions for this difficulty
-    const rawQuestions = questions[selectedDiff.level];
+    // Load and shuffle questions for this difficulty and theme
+    const themeSet = questionSets[CURRENT_THEME];
+    const rawQuestions = themeSet.questions[selectedDiff.level];
     const shuffledRaw = shuffleArray(rawQuestions);
     
     const formattedQuestions: Question[] = shuffledRaw.map((q, idx) => {
@@ -219,7 +222,12 @@ export default function App() {
 
       <AnimatePresence mode="wait">
         {status === 'DIFFICULTY_SELECT' && (
-          <DifficultySelection key="diff-select" onSelect={startGame} />
+          <DifficultySelection 
+            key="diff-select" 
+            onSelect={startGame} 
+            title={questionSets[CURRENT_THEME].title}
+            subtitle={questionSets[CURRENT_THEME].subtitle}
+          />
         )}
 
         {status === 'PLAYING' && difficulty && currentQuestion && (
@@ -292,6 +300,8 @@ export default function App() {
           <LoseScreen key="lose" onRestart={handleRestart} />
         )}
       </AnimatePresence>
+
+     
     </div>
   );
 }
