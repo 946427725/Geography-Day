@@ -5,9 +5,11 @@ import { DIFFICULTIES, DifficultySetting } from "../constants";
 
 interface DifficultySelectionProps {
   onSelect: (difficulty: DifficultySetting) => void;
+  title: string;
+  subtitle: string;
 }
 
-export const DifficultySelection: React.FC<DifficultySelectionProps> = ({ onSelect }) => {
+export const DifficultySelection: React.FC<DifficultySelectionProps> = ({ onSelect, title, subtitle }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -32,10 +34,10 @@ export const DifficultySelection: React.FC<DifficultySelectionProps> = ({ onSele
     >
       <motion.div variants={cardVariants} className="text-center mb-12">
         <h1 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight drop-shadow-lg">
-          Qiyinlik Darajasini Tanlang
+          {title}
         </h1>
         <p className="text-xl md:text-2xl text-blue-100 font-medium">
-          Skautni qutqarish uchun darajani tanlang
+          {subtitle}
         </p>
       </motion.div>
 
